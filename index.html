@@ -261,7 +261,7 @@
     let songs = [];
 
     async function loadSongs() {
-      const response = await fetch("./songs.json");
+      const response = await fetch("./records.json");
       if (!response.ok) {
         throw new Error(`曲データの読み込みに失敗しました: ${response.status}`);
       }
