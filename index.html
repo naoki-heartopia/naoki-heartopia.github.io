@@ -61,6 +61,50 @@
       backdrop-filter: blur(10px);
     }
 
+    .calendarCard{margin-bottom:16px}
+    .calendarHead{
+      padding:14px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(90deg, rgba(186,224,255,.18), rgba(200,255,226,.16));
+      font-weight:700;
+    }
+    .calendarWrap{padding:14px; overflow:auto}
+    .calendar{
+      display:grid;
+      grid-template-columns:repeat(7,minmax(130px,1fr));
+      gap:8px;
+      min-width:910px;
+    }
+    .calendarLabel{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+      text-align:center;
+      padding:6px 4px;
+    }
+    .calendarDay{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:8px;
+      min-height:130px;
+      background:rgba(255,255,255,.72);
+    }
+    .calendarDay.outside{opacity:.45}
+    .calendarDate{font-size:13px; font-weight:700; margin-bottom:8px}
+    .calendarItems{display:flex; flex-direction:column; gap:6px}
+    .calendarItem{
+      padding:6px 8px;
+      border-radius:10px;
+      border:1px solid rgba(36,48,71,.10);
+      background:rgba(122,167,255,.12);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .calendarTime{font-weight:700; margin-bottom:4px}
+    .calendarSongList{margin:0; padding-left:16px}
+    .calendarSongList li{margin:2px 0}
+    .calendarEmpty{font-size:12px; color:var(--muted)}
+
     .controls{
       display:grid;
       grid-template-columns: 1.4fr .7fr .7fr auto;
@@ -208,6 +252,13 @@
       </div>
     </header>
 
+    <section class="card calendarCard" aria-label="演奏スケジュール">
+      <div class="calendarHead">records-schedule カレンダー（日曜開始）</div>
+      <div class="calendarWrap">
+        <div class="calendar" id="calendar"></div>
+      </div>
+    </section>
+
     <section class="card" aria-label="曲リスト">
       <div class="controls">
         <div class="field">
@@ -259,11 +310,21 @@
   <script>
     // ===== データ読み込み =====
     let songs = [];
+    let scheduleItems = [];
 
     async function loadSongs() {
       const response = await fetch("./records.json");
       if (!response.ok) {
         throw new Error(`曲データの読み込みに失敗しました: ${response.status}`);
+      }
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    }
+
+    async function loadSchedule() {
+      const response = await fetch("./records-schedule.json");
+      if (!response.ok) {
+        throw new Error(`スケジュールデータの読み込みに失敗しました: ${response.status}`);
       }
       const data = await response.json();
       return Array.isArray(data) ? data : [];
@@ -277,8 +338,83 @@
       onlyPublic: document.getElementById("onlyPublic"),
       tbody: document.getElementById("tbody"),
       stats: document.getElementById("stats"),
+      calendar: document.getElementById("calendar"),
       ths: Array.from(document.querySelectorAll("thead th[data-key]")),
     };
+
+    const weekLabels = ["日", "月", "火", "水", "木", "金", "土"];
+
+    function renderCalendar(){
+      if (!scheduleItems.length){
+        els.calendar.innerHTML = `<div class="calendarEmpty">スケジュールがありません。</div>`;
+        return;
+      }
+
+      const songMap = new Map(songs.map(s => [Number(s.no), s]));
+      const groupedByDate = new Map();
+      for (const item of scheduleItems){
+        const date = (item.date || "").trim();
+        if (!date) continue;
+        if (!groupedByDate.has(date)) groupedByDate.set(date, []);
+        groupedByDate.get(date).push(item);
+      }
+
+      for (const entries of groupedByDate.values()){
+        entries.sort((a,b)=> (a.time || "").localeCompare((b.time || ""), "ja"));
+      }
+
+      const dates = [...groupedByDate.keys()].sort((a,b)=>a.localeCompare(b));
+      const firstDate = new Date(`${dates[0]}T00:00:00`);
+      const lastDate = new Date(`${dates[dates.length - 1]}T00:00:00`);
+      const startDate = new Date(firstDate);
+      startDate.setDate(firstDate.getDate() - firstDate.getDay());
+      const endDate = new Date(lastDate);
+      endDate.setDate(lastDate.getDate() + (6 - lastDate.getDay()));
+
+      const parts = weekLabels.map(label => `<div class="calendarLabel">${label}</div>`);
+      const current = new Date(startDate);
+      while (current <= endDate){
+        const y = current.getFullYear();
+        const m = String(current.getMonth() + 1).padStart(2, "0");
+        const d = String(current.getDate()).padStart(2, "0");
+        const iso = `${y}-${m}-${d}`;
+        const entries = groupedByDate.get(iso) || [];
+        const outside = iso < dates[0] || iso > dates[dates.length - 1];
+
+        parts.push(`
+          <div class="calendarDay ${outside ? "outside" : ""}">
+            <div class="calendarDate">${m}/${d}</div>
+            <div class="calendarItems">
+              ${entries.length
+                ? (() => {
+                    const groupedByTime = new Map();
+                    for (const entry of entries){
+                      const timeKey = (entry.time || "-").trim() || "-";
+                      if (!groupedByTime.has(timeKey)) groupedByTime.set(timeKey, []);
+                      groupedByTime.get(timeKey).push(entry);
+                    }
+                    return [...groupedByTime.entries()]
+                      .sort((a,b)=>a[0].localeCompare(b[0], "ja"))
+                      .map(([time, slotEntries]) => {
+                        const songsHtml = slotEntries.map(entry => {
+                          const song = songMap.get(Number(entry.record_id));
+                          const title = song ? (song.jp || song.title || `ID:${entry.record_id}`) : `ID:${entry.record_id}`;
+                          return `<li>${escapeHtml(title)}</li>`;
+                        }).join("");
+                        return `<div class="calendarItem"><div class="calendarTime">${escapeHtml(time)}</div><ul class="calendarSongList">${songsHtml}</ul></div>`;
+                      })
+                      .join("");
+                  })()
+                : `<div class="calendarEmpty">-</div>`}
+            </div>
+          </div>
+        `);
+
+        current.setDate(current.getDate() + 1);
+      }
+
+      els.calendar.innerHTML = parts.join("");
+    }
 
     function buildCategoryOptions(){
       const categories = [...new Set(songs.map(s => (s.category || "").trim()).filter(Boolean))]
@@ -421,7 +557,9 @@
     (async () => {
       try {
         songs = await loadSongs();
+        scheduleItems = await loadSchedule();
         buildCategoryOptions();
+        renderCalendar();
         applyFilters();
       } catch (error) {
         console.error(error);
