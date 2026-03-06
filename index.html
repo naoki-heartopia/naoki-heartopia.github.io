@@ -203,8 +203,8 @@
         <h1>ハートピア　曲リスト</h1>
         <div class="sub">検索・分類フィルタ・ヘッダクリックで並び替え</div>
       </div>
-      <div class="chip" title="このページは1ファイルで動作します">
-        <span class="dot ok"></span> Static
+      <div class="chip" title="HTML + JSON の静的ファイルで動作します">
+        <span class="dot ok"></span> Static Files
       </div>
     </header>
 
@@ -234,6 +234,7 @@
           公開のみ表示
         </label>
       </div>
+      <div class="stats" id="stats"></div>
       <div class="tableWrap">
         <table>
           <thead>
@@ -256,70 +257,17 @@
   </div>
 
   <script>
-    // ===== データ（ここだけ編集すればOK） =====
-    const songs = [
-      { title: "Nocturne Op.9 No.2", jp: "ノクターン Op.9-2", category: "クラシック", status: "公開" },
-      { title: "Turkish March", jp: "トルコ行進曲", category: "クラシック", status: "公開" },
-      { title: "Joy of Man's Desiring", jp: "主よ、人の望みの喜びよ", category: "クラシック", status: "公開" },
-      { title: "La Campanella", jp: "ラ・カンパネラ", category: "クラシック", status: "公開" },
-      { title: "Widmung", jp: "献呈", category: "クラシック", status: "公開" },
-      { title: "Valse du Petit Chien", jp: "子犬のワルツ", category: "クラシック", status: "公開" },
-      { title: "Liebestraum No.3", jp: "愛の夢", category: "クラシック", status: "公開" },
-      { title: "Fùr Elise", jp: "エリーゼのために", category: "クラシック", status: "公開" },
-      { title: "Piano Sonata K.545", jp: "ピアノソナタ K.545", category: "クラシック", status: "公開" },
-      { title: "Canon in D", jp: "カノン", category: "クラシック", status: "公開" },
+    // ===== データ読み込み =====
+    let songs = [];
 
-      { title: "Rito Village", jp: "リトの村", category: "ゼルダの伝説", status: "公開" },
-      { title: "Ballad of the Goddess", jp: "女神の詩", category: "ゼルダの伝説", status: "公開" },
-      { title: "Zelda's Lullaby", jp: "ゼルダの子守歌", category: "ゼルダの伝説", status: "公開" },
-      { title: "Full Steam Ahead!", jp: "全速前進！", category: "ゼルダの伝説", status: "公開" },
-
-      { title: "One Summer's Day", jp: "あの夏へ", category: "ジブリ", status: "公開" },
-      { title: "The Promise of the World", jp: "世界の約束", category: "ジブリ", status: "公開" },
-      { title: "Country Roads", jp: "カントリー・ロード", category: "ジブリ", status: "公開" },
-      { title: "Ashitaka and San", jp: "アシタカとサン", category: "ジブリ", status: "公開" },
-      { title: "Ashitaka Sekki", jp: "アシタカせっ記", category: "ジブリ", status: "公開" },
-      { title: "The Wind Forest", jp: "風の通り道", category: "ジブリ", status: "公開" },
-      { title: "The Song of Teru", jp: "テルーの唄", category: "ジブリ", status: "公開" },
-      { title: "Become the Wind", jp: "風になる", category: "ジブリ", status: "公開" },
-
-      { title: "Once Upon a Time", jp: "むかしむかし…", category: "Undertale", status: "公開" },
-      { title: "Your Best Friend", jp: "キミの親友", category: "Undertale", status: "公開" },
-      { title: "Fallen Down", jp: "おちてきた子", category: "Undertale", status: "公開" },
-      { title: "Ruins", jp: "いせき", category: "Undertale", status: "公開" },
-      { title: "Enemy Approaching", jp: "Enemy Approaching!", category: "Undertale", status: "公開" },
-      { title: "Determination", jp: "ケツイ", category: "Undertale", status: "公開" },
-      { title: "Ghost Fight", jp: "ゴースト・ファイト", category: "Undertale", status: "公開" },
-      { title: "Stronger Monsters", jp: "強敵たち", category: "Undertale", status: "公開" },
-      { title: "Home", jp: "ホーム", category: "Undertale", status: "公開" },
-      { title: "Heartache", jp: "心の痛み", category: "Undertale", status: "公開" },
-      { title: "Sans", jp: "サンズ", category: "Undertale", status: "公開" },
-      { title: "Nyeh Heh Heh!", jp: "ニャハハ！", category: "Undertale", status: "公開" },
-      { title: "Dogsong", jp: "ドッグソング", category: "Undertale", status: "公開" },
-      { title: "Uwa!! So Temperate", jp: "おだやかだワン！", category: "Undertale", status: "公開" },
-      { title: "Bonetrousle", jp: "Bonetrousle", category: "Undertale", status: "公開" },
-      { title: "Snowy", jp: "雪景色", category: "Undertale", status: "公開" },
-      { title: "Showdin Town", jp: "スノーフルのまち", category: "Undertale", status: "公開" },
-      { title: "Shop", jp: "いらっしゃいませ", category: "Undertale", status: "公開" },
-      { title: "Dating Start!", jp: "Date Start!", category: "Undertale", status: "公開" },
-      { title: "Spear of Justice", jp: "正義の槍", category: "Undertale", status: "公開" },
-      { title: "True Hero", jp: "本物のヒーローとの戦い", category: "Undertale", status: "公開" },
-
-      { title: "IRIS OUT", jp: "IRIS OUT", category: "", status: "公開" },
-      { title: "Suzume", jp: "すずめ", category: "", status: "公開" },
-      { title: "The Roost", jp: "喫茶ハトの巣", category: "", status: "公開" },
-      { title: "Summer", jp: "Summer", category: "", status: "公開" },
-
-      { title: "Gymnopédie No.1", jp: "ジムノペディ No.1", category: "クラシック", status: "公開" },
-      { title: "May Spring Come", jp: "春よ、来い", category: "", status: "公開" },
-      { title: "Nagori Yuki", jp: "なごり雪", category: "", status: "公開" },
-      { title: "No Side", jp: "ノーサイド", category: "", status: "公開" },
-      { title: "Tegami", jp: "手紙　～拝啓 十五の君へ～", category: "", status: "公開" },
-      { title: "Jonetsu Tairiku", jp: "情熱大陸", category: "", status: "公開" },
-      { title: "Toki no Uta", jp: "時の歌", category: "ジブリ", status: "公開" },
-      { title: "Sometimes Old Stories", jp: "時には昔の話を", category: "", status: "公開" },
-      { title: "Princess Mononoke", jp: "もののけ姫", category: "", status: "公開" },
-    ];
+    async function loadSongs() {
+      const response = await fetch("./songs.json");
+      if (!response.ok) {
+        throw new Error(`曲データの読み込みに失敗しました: ${response.status}`);
+      }
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    }
 
     // ===== UIロジック =====
     const els = {
@@ -332,14 +280,15 @@
       ths: Array.from(document.querySelectorAll("thead th[data-key]")),
     };
 
-    // 分類リスト生成（空は除外）
-    const categories = [...new Set(songs.map(s => (s.category || "").trim()).filter(Boolean))]
-      .sort((a,b)=>a.localeCompare(b,"ja"));
-    for (const c of categories){
-      const opt = document.createElement("option");
-      opt.value = c;
-      opt.textContent = c;
-      els.category.appendChild(opt);
+    function buildCategoryOptions(){
+      const categories = [...new Set(songs.map(s => (s.category || "").trim()).filter(Boolean))]
+        .sort((a,b)=>a.localeCompare(b,"ja"));
+      for (const c of categories){
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        els.category.appendChild(opt);
+      }
     }
 
     let sortKey = "category";
@@ -469,7 +418,17 @@
     });
 
     // 初期表示
-    applyFilters();
+    (async () => {
+      try {
+        songs = await loadSongs();
+        buildCategoryOptions();
+        applyFilters();
+      } catch (error) {
+        console.error(error);
+        els.tbody.innerHTML = `<tr><td colspan="4" class="muted">曲データの読み込みに失敗しました。</td></tr>`;
+        els.stats.innerHTML = `<span class="chip"><span class="dot bad"></span> 読み込みエラー</span>`;
+      }
+    })();
   </script>
 </body>
 </html>
