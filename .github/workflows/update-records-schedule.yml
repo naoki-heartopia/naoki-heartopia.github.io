@@ -31,6 +31,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add records-schedule.json
+          git add records-schedule.json records-schedule-history.json
           git commit -m "chore: auto update records schedule"
           git push

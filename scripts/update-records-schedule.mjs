@@ -3,6 +3,7 @@ import fs from "node:fs";
 
 const RECORDS_FILE = "./records.json";
 const SCHEDULE_FILE = "./records-schedule.json";
+const HISTORY_FILE = "./records-schedule-history.json";
 const DAYS_TO_PREPARE = 30;
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -12,7 +13,7 @@ function readJson(path, fallback) {
   return JSON.parse(fs.readFileSync(path, "utf8"));
 }
 
-function toJstToday() {
+function toJstTodayUtcMs() {
   const now = new Date();
   const jstNow = new Date(now.getTime() + JST_OFFSET_MS);
   const y = jstNow.getUTCFullYear();
@@ -52,13 +53,39 @@ function timeSortValue(timeRange) {
   return h * 60 + m;
 }
 
-function resolveRecordOrder(records, oldSchedule) {
+function sortRows(rows) {
+  return [...rows].sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    return timeSortValue(a.time) - timeSortValue(b.time);
+  });
+}
+
+function normalizeRows(rows) {
+  return rows
+    .filter((row) => row?.date && row?.time && Number.isInteger(row?.record_id))
+    .map((row) => ({
+      date: row.date,
+      time: row.time,
+      record_id: row.record_id,
+    }));
+}
+
+function withItemNo(rows) {
+  return rows.map((row, idx) => ({
+    item_no: idx + 1,
+    date: row.date,
+    time: row.time,
+    record_id: row.record_id,
+  }));
+}
+
+function resolveRecordOrder(records, referenceRows) {
   const candidateRecordIds = records
     .filter((r) => r?.status === "公開" || r?.status === "非公開")
     .map((r) => r.no)
     .filter((no) => Number.isInteger(no));
 
-  const sortedByRecent = [...oldSchedule]
+  const sortedByRecent = [...referenceRows]
     .filter((row) => row?.date && row?.time && Number.isInteger(row?.record_id))
     .sort((a, b) => {
       if (a.date !== b.date) return b.date.localeCompare(a.date);
@@ -66,8 +93,9 @@ function resolveRecordOrder(records, oldSchedule) {
     });
 
   const used = new Set();
+  const candidateSet = new Set(candidateRecordIds);
   for (const row of sortedByRecent) {
-    if (candidateRecordIds.includes(row.record_id)) {
+    if (candidateSet.has(row.record_id)) {
       used.add(row.record_id);
     }
   }
@@ -79,27 +107,77 @@ function resolveRecordOrder(records, oldSchedule) {
   return candidateRecordIds;
 }
 
-function buildSchedule(slots, recordOrder) {
-  if (recordOrder.length === 0) return [];
-  return slots.map((slot, idx) => ({
-    item_no: idx + 1,
-    date: slot.date,
-    time: slot.time,
-    record_id: recordOrder[idx % recordOrder.length],
-  }));
+function movePastRowsToHistory(oldSchedule, oldHistory, processingDate) {
+  const pastRows = oldSchedule.filter((row) => row?.date && row.date < processingDate);
+  const combined = normalizeRows([...oldHistory, ...pastRows]);
+
+  const deduped = [];
+  const seen = new Set();
+  for (const row of combined) {
+    const key = `${row.date}|${row.time}|${row.record_id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push(row);
+  }
+
+  return withItemNo(sortRows(deduped));
+}
+
+function buildMergedSchedule(oldSchedule, slots, recordOrder, processingDate) {
+  const existingFutureRows = normalizeRows(
+    oldSchedule.filter((row) => row?.date && row.date >= processingDate),
+  );
+
+  const existingBySlot = new Map();
+  for (const row of existingFutureRows) {
+    const key = `${row.date}|${row.time}`;
+    if (!existingBySlot.has(key)) {
+      existingBySlot.set(key, row);
+    }
+  }
+
+  const missingRows = [];
+  let assignIndex = 0;
+  for (const slot of slots) {
+    const key = `${slot.date}|${slot.time}`;
+    if (existingBySlot.has(key)) continue;
+
+    if (recordOrder.length === 0) break;
+    missingRows.push({
+      date: slot.date,
+      time: slot.time,
+      record_id: recordOrder[assignIndex % recordOrder.length],
+    });
+    assignIndex += 1;
+  }
+
+  const mergedRows = sortRows([...existingFutureRows, ...missingRows]);
+  return withItemNo(mergedRows);
+}
+
+function writeJson(path, data) {
+  fs.writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 
 function main() {
   const records = readJson(RECORDS_FILE, []);
   const oldSchedule = readJson(SCHEDULE_FILE, []);
+  const oldHistory = readJson(HISTORY_FILE, []);
 
-  const baseUtcMs = toJstToday();
+  const baseUtcMs = toJstTodayUtcMs();
+  const processingDate = formatYmd(new Date(baseUtcMs));
   const slots = buildSlots(baseUtcMs);
-  const order = resolveRecordOrder(records, oldSchedule);
-  const newSchedule = buildSchedule(slots, order);
+  const newHistory = movePastRowsToHistory(oldSchedule, oldHistory, processingDate);
 
-  fs.writeFileSync(SCHEDULE_FILE, `${JSON.stringify(newSchedule, null, 2)}\n`, "utf8");
+  const referenceRows = [...normalizeRows(oldSchedule), ...normalizeRows(newHistory)];
+  const order = resolveRecordOrder(records, referenceRows);
+  const newSchedule = buildMergedSchedule(oldSchedule, slots, order, processingDate);
+
+  writeJson(SCHEDULE_FILE, newSchedule);
+  writeJson(HISTORY_FILE, newHistory);
+
   console.log(`Updated ${SCHEDULE_FILE} with ${newSchedule.length} rows.`);
+  console.log(`Updated ${HISTORY_FILE} with ${newHistory.length} rows.`);
 }
 
 main();
