@@ -7,6 +7,7 @@ const HISTORY_FILE = "./records-schedule-history.json";
 const DAYS_TO_PREPARE = 30;
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
+const MINUTE_MS = 60 * 1000;
 
 function readJson(path, fallback) {
   if (!fs.existsSync(path)) return fallback;
@@ -176,6 +177,65 @@ function buildMergedSchedule(oldSchedule, slots, recordOrder, processingDate) {
   return withItemNo(mergedRows);
 }
 
+function parseScheduleStartUtcMs(row) {
+  if (!row?.date || !row?.time || !Number.isInteger(row?.record_id)) return null;
+
+  const [start = ""] = row.time.split("-");
+  const [hourRaw, minuteRaw] = start.trim().split(":");
+  const yearMonthDay = row.date.split("-").map(Number);
+
+  if (yearMonthDay.length !== 3) return null;
+
+  const hour = Number(hourRaw);
+  const minute = Number(minuteRaw);
+  const [year, month, day] = yearMonthDay;
+
+  if (
+    !Number.isInteger(year) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(day) ||
+    !Number.isInteger(hour) ||
+    !Number.isInteger(minute)
+  ) {
+    return null;
+  }
+
+  return Date.UTC(year, month - 1, day, hour, minute) - JST_OFFSET_MS;
+}
+
+function findPublishRecordIds(scheduleRows, nowUtcMs) {
+  const scheduleWithStart = scheduleRows
+    .map((row) => ({ row, startUtcMs: parseScheduleStartUtcMs(row) }))
+    .filter((item) => Number.isInteger(item.startUtcMs));
+
+  let latestStartUtcMs = null;
+  for (const item of scheduleWithStart) {
+    if (item.startUtcMs > nowUtcMs) continue;
+    if (latestStartUtcMs === null || item.startUtcMs > latestStartUtcMs) {
+      latestStartUtcMs = item.startUtcMs;
+    }
+  }
+
+  if (latestStartUtcMs === null) return new Set();
+
+  return new Set(
+    scheduleWithStart
+      .filter((item) => item.startUtcMs === latestStartUtcMs)
+      .map((item) => item.row.record_id),
+  );
+}
+
+function updateRecordStatuses(records, publicRecordIdSet) {
+  return records.map((record) => {
+    if (!Number.isInteger(record?.no)) return record;
+
+    return {
+      ...record,
+      status: publicRecordIdSet.has(record.no) ? "公開" : "非公開",
+    };
+  });
+}
+
 function writeJson(path, data) {
   fs.writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
@@ -193,10 +253,15 @@ function main() {
   const referenceRows = [...normalizeRows(oldSchedule), ...normalizeRows(newHistory)];
   const order = resolveRecordOrder(records, referenceRows);
   const newSchedule = buildMergedSchedule(oldSchedule, slots, order, processingDate);
+  const nowUtcMs = Date.now();
+  const publishRecordIdSet = findPublishRecordIds(newSchedule, nowUtcMs - (nowUtcMs % MINUTE_MS));
+  const newRecords = updateRecordStatuses(records, publishRecordIdSet);
 
+  writeJson(RECORDS_FILE, newRecords);
   writeJson(SCHEDULE_FILE, newSchedule);
   writeJson(HISTORY_FILE, newHistory);
 
+  console.log(`Updated ${RECORDS_FILE} with ${publishRecordIdSet.size} public records.`);
   console.log(`Updated ${SCHEDULE_FILE} with ${newSchedule.length} rows.`);
   console.log(`Updated ${HISTORY_FILE} with ${newHistory.length} rows.`);
 }
