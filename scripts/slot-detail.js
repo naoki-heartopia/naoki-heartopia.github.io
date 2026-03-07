@@ -8,7 +8,7 @@
     const y = dt.getFullYear();
     const m = dt.getMonth() + 1;
     const d = dt.getDate();
-    return `${y}-${m}-${d} (${week}) ${time}（表示名）`;
+    return `${y}-${m}-${d} (${week}) ${time}`;
   }
 
   function recordCard(record){
