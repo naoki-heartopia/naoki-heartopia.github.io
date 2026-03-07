@@ -61,7 +61,7 @@
 
     detailRoot.innerHTML = `
       <div class="detailPanel">
-        <div><img class="detailImage" src="./${escapeHtml(song.image_file || "record-label-default.svg")}" alt="${escapeHtml(song.jp || song.title || "レコード")}" /></div>
+        <div><img class="detailImage" src="./${escapeHtml(song.image_file || "images/records/record-label-default.svg")}" alt="${escapeHtml(song.jp || song.title || "レコード")}" /></div>
         <div>
           <h1>${escapeHtml(song.jp || song.title || "-")}</h1>
           <div class="muted">${escapeHtml(song.title || "-")}</div>
