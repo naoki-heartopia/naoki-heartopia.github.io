@@ -1,0 +1,10 @@
+.wrap{max-width:980px}
+.backLink{display:inline-block; margin-bottom:14px; color:var(--muted); text-decoration:none; font-size:14px;}
+.card{padding:18px}
+.detailPanel{display:grid; grid-template-columns:minmax(0,240px) minmax(0,1fr); gap:20px; align-items:start;}
+.detailImage{width:min(240px,100%); aspect-ratio:1/1; object-fit:cover; border-radius:50%; border:6px solid rgba(255,255,255,.88); box-shadow: 0 12px 30px rgba(36,48,71,.16); background:rgba(255,255,255,.8);}
+h1{margin:0 0 8px; font-size:28px}
+.meta{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0}
+.desc{line-height:1.8; white-space:pre-wrap}
+.schedule{margin-top:14px; font-size:15px}
+@media (max-width:700px){.detailPanel{grid-template-columns:1fr;}h1{font-size:22px}}

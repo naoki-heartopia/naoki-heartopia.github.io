@@ -1,0 +1,17 @@
+.wrap{max-width:980px}
+.backLink{display:inline-block; margin-bottom:14px; color:var(--muted); text-decoration:none; font-size:14px;}
+.slotHeader{border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; background:rgba(255,255,255,.78)}
+.slotHeader.daySlot{background:rgba(251,146,60,.16)}
+.slotHeader.nightSlot{background:rgba(122,167,255,.12)}
+.slotHeaderRow{display:flex; align-items:center; gap:8px}
+h1{margin:0; font-size:24px}
+.slotInfo{margin-top:8px}
+.slotRecordsSection h2{margin:8px 0 10px}
+.slotRecords{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px}
+.slotRecordCard{display:grid; grid-template-columns:74px 1fr; gap:10px; align-items:center; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.86); padding:10px; cursor:pointer}
+.slotRecordCard:hover{transform:translateY(-1px)}
+.slotRecordImage{width:74px; height:74px; border-radius:8px; object-fit:cover; background:#fff}
+.slotRecordTitle{font-weight:700}
+.slotRecordSub{font-size:12px; color:var(--muted); margin-top:2px}
+.slotRecordMeta{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+.slotMain{padding:16px}
