@@ -31,6 +31,11 @@ function formatYmd(date) {
 
 function buildSlots(baseUtcMs) {
   const slots = [];
+  const appendSlot = (date, time) => {
+    slots.push({ date, time });
+    slots.push({ date, time });
+  };
+
   for (let i = 0; i < DAYS_TO_PREPARE; i += 1) {
     const date = new Date(baseUtcMs + i * DAY_MS);
     const ymd = formatYmd(date);
@@ -38,10 +43,10 @@ function buildSlots(baseUtcMs) {
     const isHoliday = day === 0 || day === 6;
 
     if (isHoliday) {
-      slots.push({ date: ymd, time: "11:00-15:00" });
-      slots.push({ date: ymd, time: "18:00-22:00" });
+      appendSlot(ymd, "11:00-15:00");
+      appendSlot(ymd, "18:00-22:00");
     } else {
-      slots.push({ date: ymd, time: "20:00-24:00" });
+      appendSlot(ymd, "20:00-24:00");
     }
   }
   return slots;
@@ -128,30 +133,46 @@ function buildMergedSchedule(oldSchedule, slots, recordOrder, processingDate) {
     oldSchedule.filter((row) => row?.date && row.date >= processingDate),
   );
 
+  const requiredCountBySlot = new Map();
+  for (const slot of slots) {
+    const key = `${slot.date}|${slot.time}`;
+    requiredCountBySlot.set(key, (requiredCountBySlot.get(key) ?? 0) + 1);
+  }
+
   const existingBySlot = new Map();
   for (const row of existingFutureRows) {
     const key = `${row.date}|${row.time}`;
-    if (!existingBySlot.has(key)) {
-      existingBySlot.set(key, row);
-    }
+    const rows = existingBySlot.get(key) ?? [];
+    rows.push(row);
+    existingBySlot.set(key, rows);
+  }
+
+  const retainedRows = [];
+  for (const [key, rows] of existingBySlot.entries()) {
+    const requiredCount = requiredCountBySlot.get(key) ?? 0;
+    retainedRows.push(...rows.slice(0, requiredCount));
   }
 
   const missingRows = [];
   let assignIndex = 0;
-  for (const slot of slots) {
-    const key = `${slot.date}|${slot.time}`;
-    if (existingBySlot.has(key)) continue;
+  for (const [key, requiredCount] of requiredCountBySlot.entries()) {
+    const [date, time] = key.split("|");
+    const existingCount = (existingBySlot.get(key) ?? []).length;
+    const missingCount = Math.max(requiredCount - existingCount, 0);
 
-    if (recordOrder.length === 0) break;
-    missingRows.push({
-      date: slot.date,
-      time: slot.time,
-      record_id: recordOrder[assignIndex % recordOrder.length],
-    });
-    assignIndex += 1;
+    for (let i = 0; i < missingCount; i += 1) {
+      if (recordOrder.length === 0) break;
+
+      missingRows.push({
+        date,
+        time,
+        record_id: recordOrder[assignIndex % recordOrder.length],
+      });
+      assignIndex += 1;
+    }
   }
 
-  const mergedRows = sortRows([...existingFutureRows, ...missingRows]);
+  const mergedRows = sortRows([...retainedRows, ...missingRows]);
   return withItemNo(mergedRows);
 }
 
