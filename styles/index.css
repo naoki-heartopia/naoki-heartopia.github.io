@@ -30,10 +30,12 @@ input[type="search"], select{width:100%; padding:10px 12px; border-radius:14px; 
 table{width:100%; border-collapse:separate; border-spacing:0; min-width:820px; font-size:14px;}
 thead th{border-bottom:1px solid var(--line); text-align:left; padding:12px; color:var(--muted); font-weight:700; cursor:pointer; white-space:nowrap;}
 tbody td{padding:12px; border-bottom:1px solid var(--line);}
+tbody tr:first-child td{padding-top:18px}
 tbody tr:hover{background:rgba(122,167,255,.08)}
 .col-title{font-weight:700}
 .mobileList{display:none}
 .mobileRecordCard{padding:12px; margin:0 14px 10px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.8)}
+.mobileRecordCard:first-child{margin-top:10px}
 .mobileCardRow{display:flex; align-items:center; justify-content:space-between; gap:10px}
 .mobileTitleMuted{font-size:10px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .mobileJpMain{font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
