@@ -22,8 +22,8 @@
     return `<article class="slotRecordCard" data-record-id="${Number(record.no)}">
       <img class="slotRecordImage" src="./${escapeHtml(record.image_file || "record-label-default.svg")}" alt="${escapeHtml(record.jp || record.title || "レコード")}" />
       <div class="slotRecordBody">
-        <div class="slotRecordTitle">${escapeHtml(record.jp || "-")}</div>
         <div class="slotRecordSub">${escapeHtml(record.title || "-")}</div>
+        <div class="slotRecordTitle">${escapeHtml(record.jp || "-")}</div>
         <div class="slotRecordMeta">${statusBadge(record.status)}${categoryHtml}</div>
       </div>
     </article>`;
