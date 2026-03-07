@@ -261,6 +261,7 @@
     .mobileMetaRow .chip{max-width:100%}
     .mobileTitleMuted{font-size:10px; color:var(--muted); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
     .mobileJpMain{font-size:14px; font-weight:700; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .recordLink{cursor:pointer}
 
     @media (max-width: 700px){
       .tableWrap{display:none}
@@ -605,7 +606,7 @@
 
     function render(rows){
       els.tbody.innerHTML = rows.map(s => `
-        <tr>
+        <tr class="recordLink" data-record-id="${Number(s.no)}">
           <td>${statusBadge(s.status)}</td>
           <td class="col-title">${escapeHtml(s.title || "-")}</td>
           <td>${escapeHtml(s.jp || "-")}</td>
@@ -630,7 +631,7 @@
             })()
           : `<span class="muted">-</span>`;
 
-        return `<article class="mobileRecordCard">
+        return `<article class="mobileRecordCard recordLink" data-record-id="${Number(s.no)}">
           <div class="mobileCardRow">
             <div class="mobileTitleGroup">
               <div class="mobileTitleMuted">${escapeHtml(s.title || "-")}</div>
@@ -643,6 +644,19 @@
           </div>
         </article>`;
       }).join("");
+
+      bindRecordLinks();
+    }
+
+    function bindRecordLinks(){
+      const links = Array.from(document.querySelectorAll(".recordLink[data-record-id]"));
+      links.forEach(el => {
+        el.addEventListener("click", () => {
+          const recordId = Number(el.getAttribute("data-record-id"));
+          if (!Number.isInteger(recordId)) return;
+          window.location.href = `./detail.html?record=${recordId}`;
+        });
+      });
     }
 
     function renderStats(visible){

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Record Label</title>
+  <desc id="desc">Pastel record label placeholder image</desc>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#fff9d6"/>
+      <stop offset="55%" stop-color="#ffd6e8"/>
+      <stop offset="100%" stop-color="#b8d6ff"/>
+    </radialGradient>
+  </defs>
+  <rect width="320" height="320" fill="#f8f9ff"/>
+  <circle cx="160" cy="160" r="144" fill="url(#g)"/>
+  <circle cx="160" cy="160" r="26" fill="#ffffff" fill-opacity="0.9"/>
+  <circle cx="160" cy="160" r="9" fill="#6a7898" fill-opacity="0.75"/>
+  <text x="160" y="116" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="26" fill="#243047" opacity="0.85">NAOKI</text>
+  <text x="160" y="146" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="22" fill="#243047" opacity="0.75">RECORDS</text>
+  <text x="160" y="196" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="16" fill="#243047" opacity="0.72">Heartopia Label</text>
+</svg>
