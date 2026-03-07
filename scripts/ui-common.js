@@ -42,8 +42,8 @@
   function iconPathForTime(timeText){
     const hour = getStartHour(timeText);
     if (hour === null) return "";
-    if (hour >= 6 && hour < 16) return "./icon-sunrise-slot.svg";
-    if (hour >= 16 && hour < 30) return "./icon-night-slot.svg";
+    if (hour >= 6 && hour < 16) return "./images/icons/icon-sunrise-slot.svg";
+    if (hour >= 16 && hour < 30) return "./images/icons/icon-night-slot.svg";
     return "";
   }
 

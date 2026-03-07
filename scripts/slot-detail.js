@@ -20,7 +20,7 @@
       : `<span class="chip">分類なし</span>`;
 
     return `<article class="slotRecordCard" data-record-id="${Number(record.no)}">
-      <img class="slotRecordImage" src="./${escapeHtml(record.image_file || "record-label-default.svg")}" alt="${escapeHtml(record.jp || record.title || "レコード")}" />
+      <img class="slotRecordImage" src="./${escapeHtml(record.image_file || "images/records/record-label-default.svg")}" alt="${escapeHtml(record.jp || record.title || "レコード")}" />
       <div class="slotRecordBody">
         <div class="slotRecordSub">${escapeHtml(record.title || "-")}</div>
         <div class="slotRecordTitle">${escapeHtml(record.jp || "-")}</div>

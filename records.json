@@ -5,7 +5,7 @@
     "jp": "ノクターン Op.9-2",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ノクターン Op.9-2のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -14,7 +14,7 @@
     "jp": "トルコ行進曲",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "トルコ行進曲のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -23,7 +23,7 @@
     "jp": "主よ、人の望みの喜びよ",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "主よ、人の望みの喜びよのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -32,7 +32,7 @@
     "jp": "ラ・カンパネラ",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ラ・カンパネラのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -41,7 +41,7 @@
     "jp": "献呈",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "献呈のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -50,7 +50,7 @@
     "jp": "子犬のワルツ",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "子犬のワルツのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -59,7 +59,7 @@
     "jp": "愛の夢",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "愛の夢のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -68,7 +68,7 @@
     "jp": "エリーゼのために",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "エリーゼのためにのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -77,7 +77,7 @@
     "jp": "ピアノソナタ K.545",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ピアノソナタ K.545のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -86,7 +86,7 @@
     "jp": "カノン",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "カノンのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -95,7 +95,7 @@
     "jp": "リトの村",
     "category": "ゼルダの伝説",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "リトの村のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -104,7 +104,7 @@
     "jp": "女神の詩",
     "category": "ゼルダの伝説",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "女神の詩のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -113,7 +113,7 @@
     "jp": "ゼルダの子守歌",
     "category": "ゼルダの伝説",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ゼルダの子守歌のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -122,7 +122,7 @@
     "jp": "全速前進！",
     "category": "ゼルダの伝説",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "全速前進！のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -131,7 +131,7 @@
     "jp": "あの夏へ",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "あの夏へのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -140,7 +140,7 @@
     "jp": "世界の約束",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "世界の約束のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -149,7 +149,7 @@
     "jp": "カントリー・ロード",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "カントリー・ロードのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -158,7 +158,7 @@
     "jp": "アシタカとサン",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "アシタカとサンのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -167,7 +167,7 @@
     "jp": "アシタカせっ記",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "アシタカせっ記のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -176,7 +176,7 @@
     "jp": "風の通り道",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "風の通り道のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -185,7 +185,7 @@
     "jp": "テルーの唄",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "テルーの唄のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -194,7 +194,7 @@
     "jp": "風になる",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "風になるのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -203,7 +203,7 @@
     "jp": "むかしむかし…",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "むかしむかし…のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -212,7 +212,7 @@
     "jp": "キミの親友",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "キミの親友のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -221,7 +221,7 @@
     "jp": "おちてきた子",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "おちてきた子のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -230,7 +230,7 @@
     "jp": "いせき",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "いせきのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -239,7 +239,7 @@
     "jp": "Enemy Approaching!",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "Enemy Approaching!のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -248,7 +248,7 @@
     "jp": "ケツイ",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ケツイのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -257,7 +257,7 @@
     "jp": "ゴースト・ファイト",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ゴースト・ファイトのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -266,7 +266,7 @@
     "jp": "強敵たち",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "強敵たちのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -275,7 +275,7 @@
     "jp": "ホーム",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ホームのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -284,7 +284,7 @@
     "jp": "心の痛み",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "心の痛みのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -293,7 +293,7 @@
     "jp": "サンズ",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "サンズのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -302,7 +302,7 @@
     "jp": "ニャハハ！",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ニャハハ！のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -311,7 +311,7 @@
     "jp": "ドッグソング",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ドッグソングのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -320,7 +320,7 @@
     "jp": "おだやかだワン！",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "おだやかだワン！のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -329,7 +329,7 @@
     "jp": "Bonetrousle",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "Bonetrousleのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -338,7 +338,7 @@
     "jp": "雪景色",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "雪景色のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -347,7 +347,7 @@
     "jp": "スノーフルのまち",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "スノーフルのまちのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -356,7 +356,7 @@
     "jp": "いらっしゃいませ",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "いらっしゃいませのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -365,7 +365,7 @@
     "jp": "Date Start!",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "Date Start!のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -374,7 +374,7 @@
     "jp": "正義の槍",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "正義の槍のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -383,7 +383,7 @@
     "jp": "本物のヒーローとの戦い",
     "category": "Undertale",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "本物のヒーローとの戦いのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -392,7 +392,7 @@
     "jp": "IRIS OUT",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "IRIS OUTのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -401,7 +401,7 @@
     "jp": "すずめ",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "すずめのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -410,7 +410,7 @@
     "jp": "喫茶ハトの巣",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "喫茶ハトの巣のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -419,7 +419,7 @@
     "jp": "Summer",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "Summerのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -428,7 +428,7 @@
     "jp": "ジムノペディ No.1",
     "category": "クラシック",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ジムノペディ No.1のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -437,7 +437,7 @@
     "jp": "春よ、来い",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "春よ、来いのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -446,7 +446,7 @@
     "jp": "なごり雪",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "なごり雪のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -455,7 +455,7 @@
     "jp": "ノーサイド",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "ノーサイドのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -464,7 +464,7 @@
     "jp": "手紙　～拝啓 十五の君へ～",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "手紙　～拝啓 十五の君へ～のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -473,7 +473,7 @@
     "jp": "情熱大陸",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "情熱大陸のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -482,7 +482,7 @@
     "jp": "時の歌",
     "category": "ジブリ",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "時の歌のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -491,7 +491,7 @@
     "jp": "時には昔の話を",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "時には昔の話をのレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   },
   {
@@ -500,7 +500,7 @@
     "jp": "もののけ姫",
     "category": "",
     "status": "公開",
-    "image_file": "record-label-default.svg",
+    "image_file": "images/records/record-label-default.svg",
     "description": "もののけ姫のレコードです。落ち着いた雰囲気で楽しめる1曲です。"
   }
 ]
