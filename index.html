@@ -61,19 +61,26 @@
       backdrop-filter: blur(10px);
     }
 
-    .calendarCard{margin-bottom:16px}
+    .calendarCard{margin:0 -16px 16px;}
     .calendarHead{
       padding:14px;
       border-bottom:1px solid var(--line);
       background: linear-gradient(90deg, rgba(186,224,255,.18), rgba(200,255,226,.16));
       font-weight:700;
     }
-    .calendarWrap{padding:14px; overflow:auto}
-    .calendar{
+    .calendarWrap{padding:0; overflow:hidden}
+    .calendar{display:flex; flex-direction:column; gap:14px}
+    .calendarMonthHeading{
+      font-size:14px;
+      font-weight:700;
+      color:var(--text);
+      text-align:center;
+      margin-bottom:8px;
+    }
+    .calendarGrid{
       display:grid;
-      grid-template-columns:repeat(7,minmax(130px,1fr));
-      gap:8px;
-      min-width:910px;
+      grid-template-columns:repeat(7,minmax(0,1fr));
+      gap:0;
     }
     .calendarLabel{
       font-size:12px;
@@ -83,27 +90,63 @@
       padding:6px 4px;
     }
     .calendarDay{
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:8px;
-      min-height:130px;
+      border-left:1px solid var(--line);
+      border-right:1px solid var(--line);
+      border-top:none;
+      border-bottom:none;
+      border-radius:0;
+      padding:6px 5px;
+      min-height:108px;
       background:rgba(255,255,255,.72);
+      overflow:hidden;
     }
     .calendarDay.outside{opacity:.45}
-    .calendarDate{font-size:13px; font-weight:700; margin-bottom:8px}
-    .calendarItems{display:flex; flex-direction:column; gap:6px}
+    .calendarDate{font-size:12px; font-weight:700; margin-bottom:6px}
+    .calendarItems{display:flex; flex-direction:column; gap:4px}
     .calendarItem{
-      padding:6px 8px;
-      border-radius:10px;
-      border:1px solid rgba(36,48,71,.10);
-      background:rgba(122,167,255,.12);
-      font-size:12px;
-      line-height:1.35;
+      --calendar-item-bg: rgba(122,167,255,.12);
+      --calendar-item-border: rgba(36,48,71,.10);
+      padding:4px 5px;
+      border-radius:8px;
+      border:1px solid var(--calendar-item-border);
+      background:var(--calendar-item-bg);
+      font-size:11px;
+      line-height:1.25;
     }
-    .calendarTime{font-weight:700; margin-bottom:4px}
-    .calendarSongList{margin:0; padding-left:16px}
-    .calendarSongList li{margin:2px 0}
+    .calendarItem.daySlot{
+      --calendar-item-bg: rgba(251,146,60,.16);
+      --calendar-item-border: rgba(234,88,12,.25);
+    }
+    .calendarItem.nightSlot{
+      --calendar-item-bg: rgba(122,167,255,.12);
+      --calendar-item-border: rgba(36,48,71,.10);
+    }
+    .calendarSlotHead{display:flex; align-items:center; margin-bottom:3px}
+    .calendarIcon{width:12px; height:12px; flex:0 0 auto}
+    .calendarSongList{margin:0; padding-left:0; list-style:none}
+    .calendarSongList li{margin:1px 0; font-size:10px; position:relative; overflow:hidden; white-space:nowrap}
+    .calendarSongList li::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:26px;
+      height:100%;
+      background:linear-gradient(90deg, rgba(122,167,255,0), rgba(122,167,255,0) 55%, var(--calendar-item-bg));
+      pointer-events:none;
+    }
     .calendarEmpty{font-size:12px; color:var(--muted)}
+
+    @media (max-width: 700px){
+      .calendarMonthHeading{font-size:13px}
+      .calendarLabel{font-size:11px; padding:6px 2px}
+      .calendarDay{padding:5px 4px; min-height:96px}
+      .calendarDate{font-size:11px; margin-bottom:4px}
+      .calendarItem{padding:3px 4px; font-size:10px}
+      .calendarSongList li{font-size:9px}
+      .calendarSongList{padding-left:0}
+      .calendarSongList li::after{width:18px}
+    }
 
     .controls{
       display:grid;
@@ -138,22 +181,17 @@
     }
 
     .toggle{
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(36,48,71,.12);
-      background: rgba(255,255,255,.75);
+      display:flex; align-items:center; gap:8px;
+      padding:0;
+      border:none;
+      background:transparent;
       user-select:none;
       cursor:pointer;
+      white-space:nowrap;
     }
     .toggle input{accent-color: var(--accent); transform: translateY(1px);}
 
-    .stats{
-      display:flex; align-items:center; justify-content:flex-end; gap:10px;
-      padding:0 14px 12px;
-      color:var(--muted);
-      font-size:13px;
-    }
+    .stats{display:none}
 
     .chip{
       display:inline-flex; align-items:center; gap:8px;
@@ -205,6 +243,29 @@
       vertical-align:top;
     }
     tbody tr:hover{background:rgba(122,167,255,.08)}
+
+
+    .mobileList{display:none}
+    .mobileRecordCard{
+      padding:12px;
+      margin:0 14px 10px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:rgba(255,255,255,.8);
+      box-shadow: 0 8px 20px rgba(36,48,71,.08);
+    }
+    .mobileCardRow{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .mobileTitleGroup{min-width:0; flex:1 1 auto}
+    .mobileMetaRow{display:flex; align-items:center; justify-content:flex-end; gap:6px; flex:0 0 auto}
+    .mobileMetaRow .badge{box-shadow:none}
+    .mobileMetaRow .chip{max-width:100%}
+    .mobileTitleMuted{font-size:10px; color:var(--muted); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .mobileJpMain{font-size:14px; font-weight:700; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+    @media (max-width: 700px){
+      .tableWrap{display:none}
+      .mobileList{display:block}
+    }
 
     .col-title{font-weight:700}
     .muted{color:var(--muted)}
@@ -299,6 +360,7 @@
           <tbody id="tbody"></tbody>
         </table>
       </div>
+      <div class="mobileList" id="mobileList"></div>
     </section>
 
     <footer>
@@ -338,6 +400,7 @@
       onlyPublic: document.getElementById("onlyPublic"),
       tbody: document.getElementById("tbody"),
       stats: document.getElementById("stats"),
+      mobileList: document.getElementById("mobileList"),
       calendar: document.getElementById("calendar"),
       ths: Array.from(document.querySelectorAll("thead th[data-key]")),
     };
@@ -364,56 +427,99 @@
       }
 
       const dates = [...groupedByDate.keys()].sort((a,b)=>a.localeCompare(b));
-      const firstDate = new Date(`${dates[0]}T00:00:00`);
-      const lastDate = new Date(`${dates[dates.length - 1]}T00:00:00`);
-      const startDate = new Date(firstDate);
-      startDate.setDate(firstDate.getDate() - firstDate.getDay());
-      const endDate = new Date(lastDate);
-      endDate.setDate(lastDate.getDate() + (6 - lastDate.getDay()));
+      const monthKeys = [...new Set(dates.map(date => date.slice(0, 7)))];
+      const monthParts = [];
 
-      const parts = weekLabels.map(label => `<div class="calendarLabel">${label}</div>`);
-      const current = new Date(startDate);
-      while (current <= endDate){
-        const y = current.getFullYear();
-        const m = String(current.getMonth() + 1).padStart(2, "0");
-        const d = String(current.getDate()).padStart(2, "0");
-        const iso = `${y}-${m}-${d}`;
-        const entries = groupedByDate.get(iso) || [];
-        const outside = iso < dates[0] || iso > dates[dates.length - 1];
+      for (const monthKey of monthKeys){
+        const [yearText, monthText] = monthKey.split("-");
+        const year = Number(yearText);
+        const month = Number(monthText);
+        const monthStart = new Date(year, month - 1, 1);
+        const monthEnd = new Date(year, month, 0);
 
-        parts.push(`
-          <div class="calendarDay ${outside ? "outside" : ""}">
-            <div class="calendarDate">${m}/${d}</div>
-            <div class="calendarItems">
-              ${entries.length
-                ? (() => {
-                    const groupedByTime = new Map();
-                    for (const entry of entries){
-                      const timeKey = (entry.time || "-").trim() || "-";
-                      if (!groupedByTime.has(timeKey)) groupedByTime.set(timeKey, []);
-                      groupedByTime.get(timeKey).push(entry);
-                    }
-                    return [...groupedByTime.entries()]
-                      .sort((a,b)=>a[0].localeCompare(b[0], "ja"))
-                      .map(([time, slotEntries]) => {
-                        const songsHtml = slotEntries.map(entry => {
-                          const song = songMap.get(Number(entry.record_id));
-                          const title = song ? (song.jp || song.title || `ID:${entry.record_id}`) : `ID:${entry.record_id}`;
-                          return `<li>${escapeHtml(title)}</li>`;
-                        }).join("");
-                        return `<div class="calendarItem"><div class="calendarTime">${escapeHtml(time)}</div><ul class="calendarSongList">${songsHtml}</ul></div>`;
-                      })
-                      .join("");
-                  })()
-                : `<div class="calendarEmpty">-</div>`}
+        const startDate = new Date(monthStart);
+        startDate.setDate(monthStart.getDate() - monthStart.getDay());
+        const endDate = new Date(monthEnd);
+        endDate.setDate(monthEnd.getDate() + (6 - monthEnd.getDay()));
+
+        const gridParts = weekLabels.map(label => `<div class="calendarLabel">${label}</div>`);
+        const current = new Date(startDate);
+        while (current <= endDate){
+          const y = current.getFullYear();
+          const m = String(current.getMonth() + 1).padStart(2, "0");
+          const d = String(current.getDate()).padStart(2, "0");
+          const iso = `${y}-${m}-${d}`;
+          const entries = groupedByDate.get(iso) || [];
+          const outside = current.getMonth() !== (month - 1);
+
+          gridParts.push(`
+            <div class="calendarDay ${outside ? "outside" : ""}">
+              <div class="calendarDate">${current.getDate()}</div>
+              <div class="calendarItems">
+                ${entries.length
+                  ? (() => {
+                      const groupedByTime = new Map();
+                      for (const entry of entries){
+                        const timeKey = (entry.time || "-").trim() || "-";
+                        if (!groupedByTime.has(timeKey)) groupedByTime.set(timeKey, []);
+                        groupedByTime.get(timeKey).push(entry);
+                      }
+                      return [...groupedByTime.entries()]
+                        .sort((a,b)=>a[0].localeCompare(b[0], "ja"))
+                        .map(([time, slotEntries]) => {
+                          const songsHtml = slotEntries.map(entry => {
+                            const song = songMap.get(Number(entry.record_id));
+                            const title = song ? (song.jp || song.title || `ID:${entry.record_id}`) : `ID:${entry.record_id}`;
+                            return `<li>${escapeHtml(title)}</li>`;
+                          }).join("");
+                          const iconPath = iconPathForTime(time);
+                          const slotClass = slotThemeClass(time);
+                          const icon = iconPath ? `<div class="calendarSlotHead"><img class="calendarIcon" src="${iconPath}" alt="" aria-hidden="true"></div>` : "";
+                          return `<div class="calendarItem ${slotClass}">${icon}<ul class="calendarSongList">${songsHtml}</ul></div>`;
+                        })
+                        .join("");
+                    })()
+                  : `<div class="calendarEmpty">-</div>`}
+              </div>
             </div>
-          </div>
-        `);
+          `);
 
-        current.setDate(current.getDate() + 1);
+          current.setDate(current.getDate() + 1);
+        }
+
+        monthParts.push(`
+          <section class="calendarMonth">
+            <div class="calendarMonthHeading">${year}年${month}月</div>
+            <div class="calendarGrid">${gridParts.join("")}</div>
+          </section>
+        `);
       }
 
-      els.calendar.innerHTML = parts.join("");
+      els.calendar.innerHTML = monthParts.join("");
+    }
+
+    function getStartHour(timeText){
+      const start = (timeText || "").split("-")[0]?.trim() || "";
+      const [hour] = start.split(":");
+      const n = Number(hour);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function iconPathForTime(timeText){
+      const hour = getStartHour(timeText);
+      if (hour === null) return "";
+      if (hour >= 6 && hour < 16) return "./icon-sunrise-slot.svg";
+      if (hour >= 16 && hour < 30) return "./icon-night-slot.svg";
+      return "";
+    }
+
+
+    function slotThemeClass(timeText){
+      const hour = getStartHour(timeText);
+      if (hour === null) return "nightSlot";
+      if (hour >= 6 && hour < 16) return "daySlot";
+      if (hour >= 16 && hour < 30) return "nightSlot";
+      return "nightSlot";
     }
 
     function buildCategoryOptions(){
@@ -515,18 +621,32 @@
           }</td>
         </tr>
       `).join("");
+
+      els.mobileList.innerHTML = rows.map(s => {
+        const categoryHtml = s.category
+          ? (() => {
+              const p = pastelForCategory(s.category);
+              return `<span class="chip" style="background:${p.bg};border-color:${p.border};color:${p.text}">${escapeHtml(s.category)}</span>`;
+            })()
+          : `<span class="muted">-</span>`;
+
+        return `<article class="mobileRecordCard">
+          <div class="mobileCardRow">
+            <div class="mobileTitleGroup">
+              <div class="mobileTitleMuted">${escapeHtml(s.title || "-")}</div>
+              <div class="mobileJpMain">${escapeHtml(s.jp || "-")}</div>
+            </div>
+            <div class="mobileMetaRow">
+              ${categoryHtml}
+              ${statusBadge(s.status)}
+            </div>
+          </div>
+        </article>`;
+      }).join("");
     }
 
     function renderStats(visible){
-      const total = songs.length;
-      els.stats.innerHTML = `
-        <span class="chip" title="表示件数 / 全件数">
-          <span class="dot ok"></span> ${visible} / ${total} 件
-        </span>
-        <span class="chip" title="並び替え">
-          Sort: ${escapeHtml(sortKey)} (${escapeHtml(sortDir)})
-        </span>
-      `;
+      els.stats.innerHTML = "";
     }
 
     function renderSortIndicators(){
@@ -534,7 +654,7 @@
         const key = th.dataset.key;
         const el = document.getElementById(`sort-${key}`);
         if (!el) continue;
-        el.textContent = (key === sortKey) ? (sortDir === "asc" ? "↑" : "↓") : "";
+        el.textContent = "";
       }
     }
 
