@@ -1,0 +1,46 @@
+a{color:inherit}
+header{display:flex; gap:14px; align-items:flex-end; justify-content:space-between; padding:8px 2px 18px;}
+.title{display:flex; flex-direction:column; gap:6px;}
+h1{margin:0; font-size:28px; letter-spacing:.02em}
+.sub{color:var(--muted); font-size:13px}
+.calendarCard{margin:0 -16px 16px;}
+.calendarHead{padding:14px; border-bottom:1px solid var(--line); background: linear-gradient(90deg, rgba(186,224,255,.18), rgba(200,255,226,.16)); font-weight:700;}
+.calendar{display:flex; flex-direction:column; gap:14px}
+.calendarMonthHeading{font-size:14px; font-weight:700; text-align:center; margin-bottom:8px;}
+.calendarGrid{display:grid; grid-template-columns:repeat(7,minmax(0,1fr));}
+.calendarLabel{font-size:12px; color:var(--muted); font-weight:700; text-align:center; padding:6px 4px;}
+.calendarDay{border-left:1px solid var(--line); border-right:1px solid var(--line); padding:6px 5px; min-height:108px; background:rgba(255,255,255,.72); overflow:hidden;}
+.calendarDay.outside{opacity:.45}
+.calendarDate{font-size:12px; font-weight:700; margin-bottom:6px}
+.calendarItems{display:flex; flex-direction:column; gap:4px}
+.calendarItem{display:block; text-decoration:none; --calendar-item-bg: rgba(122,167,255,.12); --calendar-item-border: rgba(36,48,71,.10); padding:4px 5px; border-radius:8px; border:1px solid var(--calendar-item-border); background:var(--calendar-item-bg); font-size:11px; line-height:1.25; transition:transform .1s ease;}
+.calendarItem:hover{transform:translateY(-1px)}
+.calendarItem.daySlot{--calendar-item-bg: rgba(251,146,60,.16); --calendar-item-border: rgba(234,88,12,.25)}
+.calendarItem.nightSlot{--calendar-item-bg: rgba(122,167,255,.12); --calendar-item-border: rgba(36,48,71,.10)}
+.calendarSlotHead{display:flex; align-items:center; margin-bottom:3px}
+.calendarSongList{margin:0; padding-left:0; list-style:none}
+.calendarSongList li{margin:1px 0; font-size:10px; position:relative; overflow:hidden; white-space:nowrap}
+.calendarEmpty{font-size:12px; color:var(--muted)}
+.controls{display:grid; grid-template-columns: 1.4fr .7fr .7fr auto; gap:10px; padding:14px; border-bottom:1px solid var(--line); background: linear-gradient(90deg, rgba(255,184,208,.20), rgba(186,224,255,.18), rgba(200,255,226,.16));}
+.field{display:flex; flex-direction:column; gap:6px;}
+label{font-size:12px; color:var(--muted)}
+input[type="search"], select{width:100%; padding:10px 12px; border-radius:14px; border:1px solid rgba(36,48,71,.12); background: rgba(255,255,255,.75); color:var(--text); outline:none;}
+.toggle{display:flex; align-items:center; gap:8px; border:none; background:transparent; cursor:pointer;}
+.tableWrap{overflow:auto;}
+table{width:100%; border-collapse:separate; border-spacing:0; min-width:820px; font-size:14px;}
+thead th{border-bottom:1px solid var(--line); text-align:left; padding:12px; color:var(--muted); font-weight:700; cursor:pointer; white-space:nowrap;}
+tbody td{padding:12px; border-bottom:1px solid var(--line);}
+tbody tr:hover{background:rgba(122,167,255,.08)}
+.col-title{font-weight:700}
+.mobileList{display:none}
+.mobileRecordCard{padding:12px; margin:0 14px 10px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.8)}
+.mobileCardRow{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.mobileTitleMuted{font-size:10px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mobileJpMain{font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mobileMetaRow{display:flex; align-items:center; gap:6px}
+.recordLink{cursor:pointer}
+footer{margin-top:14px; color:var(--muted); font-size:12px; padding:0 4px;}
+.kbd{padding:.12em .45em; border:1px solid rgba(36,48,71,.14); border-bottom-width:2px; border-radius:10px; background:rgba(255,255,255,.70)}
+@media (max-width:860px){.controls{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.tableWrap{display:none}.mobileList{display:block}}
+@media (max-width:520px){.controls{grid-template-columns:1fr}header{flex-direction:column; align-items:flex-start}}
