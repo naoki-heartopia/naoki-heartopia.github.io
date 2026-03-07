@@ -3,7 +3,7 @@
 
   function slotLabel(date, time){
     const dt = new Date(`${date}T00:00:00`);
-    if (Number.isNaN(dt.getTime())) return `${date} ${time}（表示名）`;
+    if (Number.isNaN(dt.getTime())) return `${date} ${time}`;
     const week = ["日", "月", "火", "水", "木", "金", "土"][dt.getDay()];
     const y = dt.getFullYear();
     const m = dt.getMonth() + 1;
