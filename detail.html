@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="レコード詳細" />
+  <title>レコード詳細 | なおきレコードショップ</title>
+  <style>
+    :root{
+      --bg:#fbfbff;
+      --text:#243047;
+      --muted:#6a7898;
+      --line: rgba(36,48,71,.10);
+      --ok:#67d9b7;
+      --warn:#ffd27a;
+      --bad:#ff8fb0;
+      --shadow: 0 12px 30px rgba(36,48,71,.10);
+      --radius: 18px;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% 0%, rgba(255, 184, 208,.55), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(186, 224, 255,.60), transparent 60%),
+        radial-gradient(900px 520px at 20% 90%, rgba(200, 255, 226,.55), transparent 60%),
+        radial-gradient(900px 520px at 80% 95%, rgba(255, 240, 188,.55), transparent 60%),
+        var(--bg);
+    }
+    .wrap{max-width:980px; margin:0 auto; padding:28px 16px 50px;}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.75));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      backdrop-filter: blur(10px);
+    }
+    .backLink{display:inline-block; margin-bottom:14px; color:var(--muted); text-decoration:none; font-size:14px;}
+    .detailPanel{display:grid; grid-template-columns:minmax(0,240px) minmax(0,1fr); gap:20px; align-items:start;}
+    .detailImage{width:min(240px,100%); aspect-ratio:1/1; object-fit:cover; border-radius:50%; border:6px solid rgba(255,255,255,.88); box-shadow: 0 12px 30px rgba(36,48,71,.16); background:rgba(255,255,255,.8);}
+    h1{margin:0 0 8px; font-size:28px}
+    .muted{color:var(--muted)}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0}
+    .badge,.chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid rgba(36,48,71,.10); background: rgba(255,255,255,.70); font-size:12px}
+    .dot{width:8px;height:8px;border-radius:50%}
+    .status-public .dot{background:var(--ok)}
+    .status-private .dot{background:var(--bad)}
+    .status-wip .dot{background:var(--warn)}
+    .desc{line-height:1.8; white-space:pre-wrap}
+    .schedule{margin-top:14px; font-size:15px}
+    @media (max-width:700px){ .detailPanel{grid-template-columns:1fr;} h1{font-size:22px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="backLink" href="./index.html">← 一覧に戻る</a>
+    <section class="card" id="detailRoot"></section>
+  </div>
+
+  <script>
+    function escapeHtml(str){
+      return (str ?? "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function pastelForCategory(category){
+      const c = (category || "other").trim() || "other";
+      let h = 0;
+      for (let i = 0; i < c.length; i++) h = (h * 31 + c.charCodeAt(i)) >>> 0;
+      const hue = h % 360;
+      return {
+        bg: `hsl(${hue} 75% 92%)`,
+        border: `hsl(${hue} 55% 80%)`,
+        text: `hsl(${hue} 35% 28%)`
+      };
+    }
+
+    function statusBadge(status){
+      const s = (status || "").trim();
+      let cls = "status-public";
+      if (s === "非公開") cls = "status-private";
+      if (s === "準備中") cls = "status-wip";
+      return `<span class="badge ${cls}"><span class="dot"></span>${escapeHtml(s || "-")}</span>`;
+    }
+
+    function parseScheduleStart(dateText, timeText){
+      const date = (dateText || "").trim();
+      if (!date) return null;
+      const start = (timeText || "").split("-")[0]?.trim() || "00:00";
+      const normalized = /^\d{1,2}:\d{2}$/.test(start) ? start : "00:00";
+      const dt = new Date(`${date}T${normalized}:00`);
+      return Number.isNaN(dt.getTime()) ? null : dt;
+    }
+
+    function formatScheduleDate(dt){
+      const y = dt.getFullYear();
+      const m = `${dt.getMonth() + 1}`.padStart(2, "0");
+      const d = `${dt.getDate()}`.padStart(2, "0");
+      const h = `${dt.getHours()}`.padStart(2, "0");
+      const mi = `${dt.getMinutes()}`.padStart(2, "0");
+      return `${y}/${m}/${d} ${h}:${mi}`;
+    }
+
+    async function main(){
+      const detailRoot = document.getElementById("detailRoot");
+      const recordId = Number(new URLSearchParams(window.location.search).get("record"));
+      if (!Number.isInteger(recordId) || recordId <= 0){
+        detailRoot.innerHTML = `<p class="muted">レコードIDが指定されていません。</p>`;
+        return;
+      }
+
+      const [songsRes, scheduleRes] = await Promise.all([
+        fetch("./records.json"),
+        fetch("./records-schedule.json")
+      ]);
+      if (!songsRes.ok || !scheduleRes.ok){
+        detailRoot.innerHTML = `<p class="muted">データの読み込みに失敗しました。</p>`;
+        return;
+      }
+      const songs = await songsRes.json();
+      const scheduleItems = await scheduleRes.json();
+      const song = (Array.isArray(songs) ? songs : []).find(s => Number(s.no) === recordId);
+
+      if (!song){
+        detailRoot.innerHTML = `<p class="muted">対象のレコードが見つかりません。</p>`;
+        return;
+      }
+
+      const next = (Array.isArray(scheduleItems) ? scheduleItems : [])
+        .filter(item => Number(item.record_id) === recordId)
+        .map(item => parseScheduleStart(item.date, item.time))
+        .filter(Boolean)
+        .sort((a,b) => a.getTime() - b.getTime());
+      const nextLabel = next.length ? formatScheduleDate(next[0]) : "公開日時未定";
+
+      const categoryHtml = song.category
+        ? (() => {
+            const p = pastelForCategory(song.category);
+            return `<span class="chip" style="background:${p.bg};border-color:${p.border};color:${p.text}">${escapeHtml(song.category)}</span>`;
+          })()
+        : `<span class="chip">分類なし</span>`;
+
+      detailRoot.innerHTML = `
+        <div class="detailPanel">
+          <div><img class="detailImage" src="./${escapeHtml(song.image_file || "record-label-default.svg")}" alt="${escapeHtml(song.jp || song.title || "レコード")}" /></div>
+          <div>
+            <h1>${escapeHtml(song.jp || song.title || "-")}</h1>
+            <div class="muted">${escapeHtml(song.title || "-")}</div>
+            <div class="meta">${statusBadge(song.status)}${categoryHtml}</div>
+            <p class="desc">${escapeHtml(song.description || "説明はありません。")}</p>
+            <div class="schedule"><strong>次回の公開予定日時:</strong> ${escapeHtml(nextLabel)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    main().catch(() => {
+      const detailRoot = document.getElementById("detailRoot");
+      detailRoot.innerHTML = `<p class="muted">予期せぬエラーが発生しました。</p>`;
+    });
+  </script>
+</body>
+</html>
